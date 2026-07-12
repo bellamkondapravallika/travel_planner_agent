@@ -1,0 +1,9 @@
+/* LandingPage — minimal, just anchors scroll offset for fixed navbar */
+.landing {
+  min-height: 100vh;
+}
+
+/* Offset anchor links below the fixed navbar */
+section[id] {
+  scroll-margin-top: var(--navbar-height);
+}

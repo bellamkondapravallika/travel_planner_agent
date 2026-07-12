@@ -1,0 +1,250 @@
+/* ===== WatsonxChat wrapper ===== */
+
+/* 
+  Full-height container for the IBM watsonx Orchestrate widget.
+  The widget itself handles its own internal layout (header, message list, input).
+  We provide a clean, full-height host.
+*/
+.wxo-chat-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  /* relative so the absolute-positioned hidden mount doesn't escape */
+  position: relative;
+  background: var(--bg-secondary);
+}
+
+/*
+  IBM widget mount target.
+  When loadState === 'loaded' this becomes position:relative and flex:1
+  so the widget fills the full available height.
+  When hidden it is absolute with z-index:-1 so it stays out of sight
+  but remains mounted (widget needs the DOM node present at onLoad time).
+*/
+.wxo-chat-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+}
+
+/* IBM widget injects a <div> child — make sure it fills the container */
+.wxo-chat-container > div,
+.wxo-chat-container > iframe {
+  flex: 1 !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  border: none !important;
+}
+
+/* ===== Loading State ===== */
+.wxo-loading {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-5);
+  padding: var(--space-10);
+  text-align: center;
+  background: var(--bg-primary);
+}
+
+.wxo-loading__anim {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+/* Animated airplane */
+.wxo-plane {
+  font-size: 3.5rem;
+  animation: float 2s ease-in-out infinite;
+  filter: drop-shadow(0 8px 16px rgba(14,165,233,0.4));
+}
+
+/* Loading dots */
+.wxo-loading__dots {
+  display: flex;
+  gap: 6px;
+}
+
+.wxo-loading__dots span {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--color-sky-500);
+  animation: typing 1.2s ease infinite;
+}
+
+.wxo-loading__dots span:nth-child(2) { animation-delay: 0.2s; }
+.wxo-loading__dots span:nth-child(3) { animation-delay: 0.4s; }
+
+.wxo-loading__title {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.wxo-loading__sub {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+}
+
+/* Progress bar */
+.wxo-loading__bar {
+  width: 240px;
+  height: 4px;
+  background: var(--border-color);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.wxo-loading__bar-inner {
+  height: 100%;
+  background: var(--gradient-primary);
+  border-radius: var(--radius-full);
+  animation: shimmer 2s linear infinite;
+  background-size: 200% 100%;
+  background-image: linear-gradient(
+    90deg,
+    var(--color-sky-200) 0%,
+    var(--color-sky-500) 40%,
+    var(--color-teal-400) 60%,
+    var(--color-sky-200) 100%
+  );
+}
+
+/* ===== Error State ===== */
+.wxo-error {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-4);
+  padding: var(--space-12);
+  text-align: center;
+  background: var(--bg-primary);
+}
+
+.wxo-error__icon {
+  font-size: 3rem;
+}
+
+.wxo-error__title {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.wxo-error__msg {
+  font-size: var(--text-base);
+  color: var(--text-secondary);
+  max-width: 480px;
+  line-height: 1.7;
+}
+
+.wxo-error__tips {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  text-align: left;
+  background: var(--bg-tertiary);
+  padding: var(--space-5);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-color);
+  width: 100%;
+  max-width: 400px;
+}
+
+.wxo-error__tip {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+}
+
+.wxo-error__retry {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-8);
+  background: var(--gradient-primary);
+  color: white;
+  border: none;
+  border-radius: var(--radius-full);
+  font-size: var(--text-base);
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: var(--space-2);
+  transition: all var(--transition-fast);
+}
+
+.wxo-error__retry:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(14,165,233,0.4);
+}
+
+/* ===== Suggestions State ===== */
+.wxo-suggestions {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-6);
+  padding: var(--space-10);
+  text-align: center;
+}
+
+.wxo-suggestions__title {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.wxo-suggestions__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  justify-content: center;
+  max-width: 680px;
+}
+
+.wxo-suggestions__pill {
+  padding: var(--space-3) var(--space-5);
+  background: var(--color-white);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-full);
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  text-align: left;
+}
+
+.wxo-suggestions__pill:hover {
+  border-color: var(--color-sky-400);
+  color: var(--color-sky-600);
+  background: var(--color-sky-50);
+  box-shadow: 0 2px 8px rgba(14,165,233,0.15);
+  transform: translateY(-1px);
+}
+
+/*
+  Allow the WxO webclient SPA to render at full height.
+  The SPA creates its own fixed/absolute elements; we ensure the root div
+  fills the container so the chat appears inline, not as a floating bubble.
+*/
+#wxo-root > * {
+  width:  100% !important;
+  height: 100% !important;
+}
